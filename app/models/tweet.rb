@@ -6,4 +6,9 @@ class Tweet
   field :created_at, type: DateTime
 
   index({location: '2dsphere'}, background: true)
+
+  validates_presence_of :screen_name
+  validates_presence_of :text
+  validates_presence_of :location
+  validates_presence_of :created_at
 end

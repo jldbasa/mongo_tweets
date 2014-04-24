@@ -1,5 +1,14 @@
 require 'spec_helper'
 
 describe Tweet do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  it "has a valid factory" do
+    expect(FactoryGirl.build(:tweet)).to be_valid
+  end
+
+  it { should validate_presence_of(:screen_name) }
+  it { should validate_presence_of(:text) }
+  it { should validate_presence_of(:location) }
+  it { should validate_presence_of(:created_at) }
+
 end
