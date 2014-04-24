@@ -6,6 +6,8 @@ gem 'rails', '4.0.4'
 # DB
 gem 'mongoid', git: 'https://github.com/mongoid/mongoid.git'
 
+# Config
+gem 'figaro'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -27,6 +29,9 @@ gem 'turbolinks'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
+
+# Other
+gem 'tweetstream'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
