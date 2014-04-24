@@ -44,3 +44,18 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+#
+group :development do
+  gem 'pry'
+  gem 'pry-plus'
+end
+
+group :development, :test do
+  gem "rspec-rails", "~> 2.14.0"
+  gem "factory_girl_rails", "~> 4.2.1"
+  gem 'quiet_assets'
+end
+
+group :test do
+  gem "database_cleaner", "~> 1.0.1"
+end
