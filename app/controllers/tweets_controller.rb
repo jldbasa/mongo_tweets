@@ -11,7 +11,7 @@ class TweetsController < ApplicationController
         .per(MongoTweets::Application.config.rpp)
         .geo_near([params[:long].to_f, params[:lat].to_f])
         .spherical
-        .max_distance(params[:distance].to_f.fdiv(111.12))
+        .max_distance(params[:distance].to_f.fdiv(6371))
 
     else
 
