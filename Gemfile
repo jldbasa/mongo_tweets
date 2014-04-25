@@ -54,6 +54,7 @@ gem 'unicorn'
 # gem 'debugger', group: [:development, :test]
 #
 group :development do
+  gem "foreman"
 end
 
 group :development, :test do
