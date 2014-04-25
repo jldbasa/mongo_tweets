@@ -32,6 +32,7 @@ gem 'jbuilder', '~> 1.2'
 
 # Other
 gem 'tweetstream'
+gem 'kaminari'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -51,14 +52,15 @@ end
 # gem 'debugger', group: [:development, :test]
 #
 group :development do
-  gem 'pry'
-  gem 'pry-plus'
 end
 
 group :development, :test do
   gem "rspec-rails", "~> 2.14.0"
   gem "factory_girl_rails", "~> 4.2.1"
   gem 'quiet_assets'
+
+  gem 'pry'
+  gem 'pry-plus'
 end
 
 group :test do

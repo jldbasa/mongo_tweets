@@ -1,0 +1,18 @@
+<h1>Mongo Tweets</h1>
+<%= form_for :tweet, method: :get do %>
+Long: <%= text_field_tag :long, params[:long].present? ? params[:long]: nil %> <br />
+Lat: <%= text_field_tag :lat, params[:lat].present? ? params[:lat]: nil %> <br />
+Radius (Distance): <%= text_field_tag :distance, params[:distance].present? ? params[:distance]: nil %> km. <br />
+<%= submit_tag "Search Nearby Tweets" %>
+<% end %>
+
+<% @tweets.each do |tweet| %>
+  <ul>
+    <li><%= tweet.screen_name %></li>
+    <li><%= tweet.text %></li>
+    <li><%= time_ago_in_words(tweet.created_at) %> ago</li>
+    <li><%= tweet.location %></li>
+  </ul>
+<% end %>
+
+<%#= paginate @tweets %>
