@@ -24,7 +24,7 @@ describe Tweet do
   it "returns a sorted array of results that match" do
     tweet_1
     tweet_2
-    @tweets = Tweet.near([29.36209198, 47.97968745], 10.fdiv(6371))
+    @tweets = Tweet.near([29.36209198, 47.97968745], 10)
     expect(@tweets).to eq [tweet_2, tweet_1]
   end
 end

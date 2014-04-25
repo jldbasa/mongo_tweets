@@ -22,8 +22,7 @@ describe TweetsController do
     end
 
     it "assigns the requested tweets to @tweets" do
-      expect(assigns(:tweets)).to eq Tweet.near([29.36209198, 47.97968745],
-        10.fdiv(6371))
+      expect(assigns(:tweets)).to eq Tweet.near([29.36209198, 47.97968745], 10)
     end
 
     it { should render_template(:index) }

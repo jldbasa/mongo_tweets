@@ -14,6 +14,7 @@ class Tweet
   validates_presence_of :created_at
 
   def self.near(near, distance, page=nil)
+    distance = distance.to_f.fdiv(6371)
     page = page || 1
     per_page = MongoTweets::Application.config.rpp
 
