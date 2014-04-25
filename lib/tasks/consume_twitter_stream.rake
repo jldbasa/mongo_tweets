@@ -33,15 +33,17 @@ namespace :mongo_tweets do
       if status.geo?
 
         @tweet = Tweet.new
-        @tweet.screen_name = "@#{status.user.screen_name}"
+        @tweet.screen_name = status.user.screen_name
         @tweet.text = status.text
         @tweet.location = status.geo.coordinates
         @tweet.created_at = status.created_at
+        @tweet.hashtags = status.hashtags.map{|h| h.text} if status.hashtags?
         puts "Saved! #{@tweet.save}"
 
         puts "@#{status.user.screen_name}: #{status.text}"
         puts "created_at: #{status.created_at}\n\n"
         puts "loc: #{status.geo.coordinates}\n\n"
+        puts "hashtags: #{@tweet.hashtags}\n\n"
 
       end
     end

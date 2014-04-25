@@ -4,6 +4,7 @@ class Tweet
   field :text, type: String
   field :location, type: Array, default: []
   field :created_at, type: DateTime
+  field :hashtags, type: Array, default: []
 
   index({location: '2dsphere'}, background: true)
 
