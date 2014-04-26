@@ -35,6 +35,7 @@ gem 'jbuilder', '~> 1.2'
 # Other
 gem 'tweetstream'
 gem 'kaminari'
+gem 'kaminari-bootstrap', '~> 3.0.1'
 gem 'bootstrap-sass', '~> 3.1.0.0'
 
 group :doc do
