@@ -25,7 +25,7 @@ namespace :mongo_tweets do
     client.locations(-180,-90,180,90) do |status|
 
       @statuses << status
-      client.stop if @statuses.size >= 10
+      client.stop if @statuses.size >= 500
 
     end
 
@@ -35,7 +35,7 @@ namespace :mongo_tweets do
         @tweet = Tweet.new
         @tweet.screen_name = status.user.screen_name
         @tweet.text = status.text
-        @tweet.location = status.geo.coordinates
+        @tweet.location = status.geo.coordinates.reverse
         @tweet.created_at = status.created_at
         @tweet.hashtags = status.hashtags.map{|h| h.text} if status.hashtags?
         puts "Saved! #{@tweet.save}"
