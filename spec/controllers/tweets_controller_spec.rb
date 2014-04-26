@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe TweetsController do
 
-  let!(:tweet) { FactoryGirl.create(:tweet, location: [29.36209198, 47.97968745]) }
+  let!(:tweet) { FactoryGirl.create(:tweet, location: [29.36209198, 47.97968745], hashtags:['testtag']) }
 
   describe "GET 'index'" do
     before :each do
@@ -23,6 +23,18 @@ describe TweetsController do
 
     it "assigns the requested tweets to @tweets" do
       expect(assigns(:tweets)).to eq Tweet.near([29.36209198, 47.97968745], 10)
+    end
+
+    it { should render_template(:index) }
+  end
+
+  describe "GET 'index' with params long, lat, distance and hashtag" do
+    before :each do
+      get :index, long: 29.36209198, lat: 47.97968745, distance:10, hashtag: 'testtag'
+    end
+
+    it "assigns the requested tweets to @tweets" do
+      expect(assigns(:tweets)).to eq Tweet.near([29.36209198, 47.97968745], 10, 1, hashtags: 'testtag')
     end
 
     it { should render_template(:index) }

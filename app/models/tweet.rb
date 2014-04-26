@@ -13,7 +13,7 @@ class Tweet
   validates_presence_of :location
   validates_presence_of :created_at
 
-  def self.near(near, distance, page=nil)
+  def self.near(near, distance, page=nil, options ={})
     distance = distance.to_f.fdiv(6371)
     page = page || 1
     per_page = MongoTweets::Application.config.rpp
@@ -30,6 +30,11 @@ class Tweet
       },
       { "$sort" =>  { "created_at" => -1 } },
     ]
+
+    if options[:hashtags].present?
+      hashtags = options[:hashtags][0] == '#' ? options[:hashtags][1..-1] : options[:hashtags]
+      pipeline[0]["$geoNear"]["query"] = {"hashtags" => hashtags}
+    end
 
     count = collection.aggregate(pipeline).count
 

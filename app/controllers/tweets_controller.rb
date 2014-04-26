@@ -18,7 +18,8 @@ class TweetsController < ApplicationController
       # temporary workaround with the above problem
       @tweets = Tweet.near([params[:long].to_f, params[:lat].to_f],
         params[:distance],
-        params[:page])
+        params[:page],
+        hashtags: params[:hashtag])
 
     else
 

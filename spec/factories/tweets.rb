@@ -6,5 +6,6 @@ FactoryGirl.define do
     text "Test tweet"
     location [29.36209198, 47.97968745]
     created_at Time.now
+    hashtags ['testtag']
   end
 end

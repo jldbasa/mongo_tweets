@@ -9,9 +9,10 @@ end
 <div class="row">
   <form class="navbar-form navbar-left" role="search">
     <div class="form-group">
-      <%= text_field_tag :lat, params[:lat].present? ? params[:lat]: nil, class: "form-control", placeholder: "Latitude" %>
-      <%= text_field_tag :long, params[:long].present? ? params[:long]: nil, class: "form-control", placeholder: "Longitude" %>
-      <%= text_field_tag :distance, params[:distance].present? ? params[:distance]: nil, class: "form-control", placeholder: "Radius in km." %>
+      <%= text_field_tag :lat, params[:lat].present? ? params[:lat]: nil, class: "form-control", placeholder: "Latitude", size: 12 %>
+      <%= text_field_tag :long, params[:long].present? ? params[:long]: nil, class: "form-control", placeholder: "Longitude", size: 12 %>
+      <%= text_field_tag :distance, params[:distance].present? ? params[:distance]: nil, class: "form-control", placeholder: "Radius in km.", size: 9 %>
+      <%= text_field_tag :hashtag, params[:hashtag].present? ? params[:hashtag]: nil, class: "form-control", placeholder: "#hashtag (optional)" %>
     </div>
     <button type="submit" class="btn btn-primary">Search</button>
     <%= link_to "Reset", root_path, class: "btn btn-default" %>
