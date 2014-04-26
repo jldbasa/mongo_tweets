@@ -25,6 +25,7 @@ end
   </div>
   <div class="panel-body">
     <div id="map" style="width: 670px; height: 400px;"></div>
+    <small>Map only shows the tweets on the current page</small>
   </div>
 </div>
 <% end %>
@@ -47,9 +48,10 @@ end
 
         <p><%= tweet.text %></p>
 
-        <span class="glyphicon glyphicon-globe"></span>
-        <a href="https://maps.google.com/maps?q=<%= "#{tweet.location[1]}%2C#{tweet.location[0]}" %>&z=15" target="_blank"><small><%= "#{tweet.location[1]}, #{tweet.location[0]}" %></small></a>
-
+        <a href="https://maps.google.com/maps?q=<%= "#{tweet.location[1]}%2C#{tweet.location[0]}" %>&z=15" target="_blank" title="View location"><span class="glyphicon glyphicon-globe"></span></a>
+        <%= link_to(root_path(lat: tweet.location[1], long: tweet.location[0], distance:50), title: "View nearby tweets") do %>
+        <span class="glyphicon glyphicon-search"></span>
+        <% end %>
       </li>
   <% end %>
 <% else %>
