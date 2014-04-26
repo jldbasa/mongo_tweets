@@ -1,8 +1,16 @@
+<%
+if params[:long].present? && params[:lat].present? && params[:distance].present?
+  search_location = true
+else
+  search_location = false
+end
+
+%>
 <div class="row">
   <form class="navbar-form navbar-left" role="search">
     <div class="form-group">
-      <%= text_field_tag :long, params[:long].present? ? params[:long]: nil, class: "form-control", placeholder: "Longitude" %>
       <%= text_field_tag :lat, params[:lat].present? ? params[:lat]: nil, class: "form-control", placeholder: "Latitude" %>
+      <%= text_field_tag :long, params[:long].present? ? params[:long]: nil, class: "form-control", placeholder: "Longitude" %>
       <%= text_field_tag :distance, params[:distance].present? ? params[:distance]: nil, class: "form-control", placeholder: "Radius in km." %>
     </div>
     <button type="submit" class="btn btn-primary">Search</button>
@@ -10,26 +18,120 @@
   </form>
 </div>
 
+<% if search_location %>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Nearby tweets location</h3>
+  </div>
+  <div class="panel-body">
+    <div id="map" style="width: 670px; height: 400px;"></div>
+  </div>
+</div>
+<% end %>
+
+
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">Tweets</div>
+  <div class="panel-heading">
+    <h3 class="panel-title">Tweets</h3>
+  </div>
   <!-- List group -->
   <ul class="list-group">
-<% @tweets.each do |tweet| %>
-    <li class="list-group-item">
+<% if @tweets.size > 0 %>
+  <% @tweets.each do |tweet| %>
+      <li class="list-group-item">
 
-      <h5><a href="http://twitter.com/<%= tweet.screen_name %>" target="_blank">@<%= tweet.screen_name %></a> &middot; 
-      <small><%= time_ago_in_words(tweet.created_at) %></small>
-      </h5>
+        <h5><a href="http://twitter.com/<%= tweet.screen_name %>" target="_blank">@<%= tweet.screen_name %></a> &middot; 
+        <small><%= time_ago_in_words(tweet.created_at) %></small>
+        </h5>
 
-      <p><%= tweet.text %></p>
+        <p><%= tweet.text %></p>
 
-      <span class="glyphicon glyphicon-globe"></span>
-      <a href="#"><small><%= "#{tweet.location[0]}, #{tweet.location[1]}" %></small></a>
+        <span class="glyphicon glyphicon-globe"></span>
+        <a href="https://maps.google.com/maps?q=<%= "#{tweet.location[1]}%2C#{tweet.location[0]}" %>&z=15" target="_blank"><small><%= "#{tweet.location[1]}, #{tweet.location[0]}" %></small></a>
 
-    </li>
+      </li>
+  <% end %>
+<% else %>
+      <li class="list-group-item">
+      No tweets found
+      </li>
 <% end %>
   </ul>
 </div>
 
 <%= paginate @tweets %>
+
+
+<% content_for :inline_js do %>
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+<script type="text/javascript" charset="utf-8">
+
+$(function () {
+
+  visualizeTweets();
+
+  function visualizeTweets(){
+    var locations = [
+      ['Your search location',<%=params[:lat]%>, <%=params[:long]%>],
+<% @tweets.each do |tweet| %>
+      ['@<%=tweet.screen_name %>', <%=tweet.location[1] %>, <%=tweet.location[0] %>],
+<% end %>
+    ];
+
+    var latLng = new google.maps.LatLng(<%=params[:lat]%>, <%=params[:long]%>);
+    var infowindow = new google.maps.InfoWindow();
+    var marker, i;
+
+    MTMAP.init('#map', latLng, 8);
+
+    for (i = 0; i < locations.length; i++) {
+      var latLng = new google.maps.LatLng(locations[i][1], locations[i][2]);
+      var marker = MTMAP.createMarker(latLng);
+
+      if (i>0)
+        marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+
+      google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        return function() {
+          infowindow.setContent(locations[i][0]);
+          infowindow.open(MTMAP.map, marker);
+        }
+      })(marker, i));
+    }
+
+  }
+});
+
+var MTMAP = {
+  map: null,
+  bounds: null
+}
+
+MTMAP.init = function(selector, latLng, zoom) {
+  var myOptions = {
+    zoom:zoom,
+    center: latLng,
+    panControl: true,
+    zoomControl: true,
+    scaleControl: true,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  }
+  this.map = new google.maps.Map($(selector)[0], myOptions);
+  this.bounds = new google.maps.LatLngBounds();
+}
+
+MTMAP.createMarker = function(point){
+  MTMAP.bounds.extend(point);
+
+  var marker = new google.maps.Marker({
+    draggable: false,
+    position: point,
+    map: MTMAP.map
+  });
+  return marker;
+}
+</script>
+<% end %>
