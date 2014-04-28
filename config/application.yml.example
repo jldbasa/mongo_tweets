@@ -1,0 +1,7 @@
+# Add application configuration variables here, as shown below.
+
+CONSUMER_KEY: ''
+CONSUMER_SECRET: ''
+OAUTH_TOKEN: ''
+OAUTH_TOKEN_SECRET: ''
+SECRET_KEY_BASE: ''
